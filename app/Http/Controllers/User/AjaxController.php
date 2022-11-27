@@ -80,6 +80,17 @@ class AjaxController extends Controller
             ->delete();
     }
 
+    // increase pizza viewcount
+    public function increaseViewCount(Request $request){
+        $pizzas = Product::where('id',$request->productId)->first();
+
+        $viewCount = [
+            'view_count' => $pizzas->view_count + 1
+        ];
+
+        Product::where('id',$request->productId)->update($viewCount);
+    }
+
     // get order data
     private function getOrderData($request){
         return [

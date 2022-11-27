@@ -112,7 +112,7 @@
         $(document).ready(function() {
             // $.ajax({
             //     type : 'get' ,
-            //     url : 'http://localhost:8000/user/ajax/pizza/list' ,
+            //     url : '/user/ajax/pizza/list' ,
             //     dataType : 'json' ,
             //     success : function(response){
             //         console.log(response);
@@ -126,7 +126,7 @@
                 if ($eventOption == 'asc') {
                     $.ajax({
                         type: 'get',
-                        url: 'http://localhost:8000/user/ajax/pizza/list',
+                        url: '/user/ajax/pizza/list',
                         data: {
                             'status': 'asc',
                             // 'message' : 'This is testing message'
@@ -163,7 +163,7 @@
                 } else if ($eventOption == 'desc') {
                     $.ajax({
                         type: 'get',
-                        url: 'http://localhost:8000/user/ajax/pizza/list',
+                        url: '/user/ajax/pizza/list',
                         data: { 'status': 'desc' },
                         dataType: 'json',
                         success: function(response) {

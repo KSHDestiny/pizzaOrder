@@ -123,12 +123,12 @@
 
             $.ajax({
                 type: 'get',
-                url: 'http://localhost:8000/user/ajax/order',
+                url: '/user/ajax/order',
                 data: Object.assign({},$orderList),  // data ka object type pyit ya mL
                 dataType: 'json',
                 success: function(response) {
                     if(response.status == 'true'){
-                        window.location.href = "http://localhost:8000/user/homePage";
+                        window.location.href = "/user/homePage";
                     }
                 }
             })
@@ -141,7 +141,7 @@
 
             $.ajax({
                 type: 'get',
-                url: 'http://localhost:8000/user/ajax/clear/cart',
+                url: '/user/ajax/clear/cart',
                 dataType: 'json'
                 })
         });
@@ -156,7 +156,7 @@
 
             $.ajax({
                 type : 'get',
-                url : 'http://localhost:8000/user/ajax/clear/current/product',
+                url : '/user/ajax/clear/current/product',
                 data : {
                     'productId' : $productId ,
                     'orderId' : $orderId

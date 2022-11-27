@@ -50,7 +50,9 @@
                                             <td>{{$order->user_id}}</td>
                                             <td>{{$order->user_name}}</td>
                                             <td>{{$order->created_at->format('F-j-y')}}</td>
-                                            <td>{{$order->order_code}}</td>
+                                            <td>
+                                                <a href="{{route('admin#listInfo',$order->order_code)}}" class="text-primary">{{$order->order_code}}</a>
+                                            </td>
                                             <td class="amount">{{$order->total_price}}</td>
                                             <td>
                                                 <select name="status" class="form-control status-change">
@@ -80,7 +82,7 @@
 
             //     $.ajax({
             //         type: 'get',
-            //         url: 'http://localhost:8000/order/ajax/status',
+            //         url: '/order/ajax/status',
             //         data: {
             //             'status': $status
             //         },
@@ -152,7 +154,7 @@
 
                 $.ajax({
                     type: 'get',
-                    url: 'http://localhost:8000/order/ajax/change/status',
+                    url: '/order/ajax/change/status',
                     data: $data,
                     dataType: 'json',
                 })

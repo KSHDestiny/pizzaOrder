@@ -9,6 +9,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\User\AjaxController;
 use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\UserController as Enter;
 
     // login , register
 Route::middleware(['admin_auth'])->group(function () {
@@ -69,6 +70,13 @@ Route::middleware(['auth'])->group(function () {    // auth nat bll kar mL
             Route::get('list',[OrderController::class,'orderList'])->name('admin#orderList');
             Route::get('change/status',[OrderController::class,'changeStatus'])->name('admin#changeStatus');
             Route::get('ajax/change/status',[OrderController::class,'ajaxChangeStatus'])->name('admin#ajaxChangeStatus');
+            Route::get('listInfo/{orderCode}',[OrderController::class,'listInfo'])->name('admin#listInfo');
+        });
+
+        // user
+        Route::prefix('user')->group(function(){
+            Route::get('list',[Enter::class,'userList'])->name('admin#userList');
+            Route::get('change/role',[Enter::class,'userChangeRole'])->name('admin#userChangeRole');
         });
     });
 
@@ -111,6 +119,7 @@ Route::middleware(['auth'])->group(function () {    // auth nat bll kar mL
             Route::get('order',[AjaxController::class,'order'])->name('ajax#order');
             Route::get('clear/cart',[AjaxController::class,'clearCart'])->name('ajax#clearCart');
             Route::get('clear/current/product',[AjaxController::class,'clearCurrentProduct'])->name('ajax#clearCurrentProduct');
+            Route::get('increase/viewcount',[AjaxController::class,'increaseViewCount'])->name('ajax#increaseViewCount');
         });
     });
 });
