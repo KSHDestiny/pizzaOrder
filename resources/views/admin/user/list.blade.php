@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 
-@section('title','Order List Page')
+@section('title','User List Page')
 @section('content')
 
     <!-- MAIN CONTENT-->
@@ -50,6 +50,14 @@
                                                     <option value="user" @if ($user->role == 'user') selected @endif>User</option>
                                                     <option value="admin" @if ($user->role == 'admin') selected @endif>Admin</option>
                                                 </select>
+                                            </td>
+                                            <td>
+                                                <a href="{{route('admin#userEdit',$user->id)}}">
+                                                    <i class="fa-solid fa-user-pen me-2" title="User Account Edit"></i>
+                                                </a>
+                                                <a href="{{route('admin#userDelete',$user->id)}}">
+                                                    <i class="fa-solid fa-trash-can" title="Delete"></i>
+                                                </a>
                                             </td>
                                         </tr>
                                     @endforeach

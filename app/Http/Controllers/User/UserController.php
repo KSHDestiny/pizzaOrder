@@ -6,6 +6,7 @@ use Storage;
 use App\Models\Cart;
 use App\Models\User;
 use App\Models\Order;
+use App\Models\Contact;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -114,6 +115,20 @@ class UserController extends Controller
         return view('user.main.history',compact('orders'));
     }
 
+    // direct contact page
+    public function userContactPage($id){
+        $user = User::where('id',$id)->first();
+        return view('user.contact.page',compact('user'));
+    }
+
+    // contact form
+    public function userContactForm($id, Request $request){
+        $data = $this->getContactData($request);
+        $this->contactValidationCheck($request);
+        Contact::create($data);
+        return redirect()->route('user#home');
+    }
+
     // password validation check
     private function passwordValidationCheck($request){
         Validator::make($request->all(),[
@@ -145,5 +160,22 @@ class UserController extends Controller
             'address' => $request->address,
             'updated_at' => Carbon::now()
         ];
+    }
+
+    // request contact data
+    private function getContactData($request){
+        $user = User::where('id',Auth::user()->id)->first();
+        return [
+            'name' => $user->name,
+            'email' => $user->email,
+            'message' => $request->message
+        ];
+    }
+
+    // contact validation check
+    private function contactValidationCheck($request){
+        Validator::make($request->all(),[
+            'message' => 'required|min:10'
+        ])->validate();
     }
 }

@@ -96,42 +96,52 @@
 
                             <tbody>
                                 @foreach ($admins as $admin)
-                                <tr class="tr-shadow">
-                                    <td class="col-2">
-                                        @if ($admin->image == null)
-                                            @if ($admin->gender == 'male')
-                                                <img src="{{asset('image/default_user.png')}}" class="img-thumbnail shadow-sm">
+                                    <tr class="tr-shadow">
+                                        <input type="hidden" name="" value="{{$admin->id}}" id="adminId">
+                                        <td class="col-2">
+                                            @if ($admin->image == null)
+                                                @if ($admin->gender == 'male')
+                                                    <img src="{{asset('image/default_user.png')}}" class="img-thumbnail shadow-sm">
+                                                @else
+                                                    <img src="{{asset('image/default_female_user.webp')}}" class="img-thumbnail shadow-sm">
+                                                @endif
                                             @else
-                                                <img src="{{asset('image/default_female_user.webp')}}" class="img-thumbnail shadow-sm">
+                                                <img src="{{asset('storage/'.$admin->image)}}" class="img-thumbnail shadow-sm">
                                             @endif
-                                        @else
-                                            <img src="{{asset('storage/'.$admin->image)}}" class="img-thumbnail shadow-sm">
-                                        @endif
-                                    </td>
-                                    <td>{{$admin->name}}</td>
-                                    <td>{{$admin->email}}</td>
-                                    <td>{{$admin->gender}}</td>
-                                    <td>{{$admin->phone}}</td>
-                                    <td>{{$admin->address}}</td>
-                                    <td>
-                                        <div class="table-data-feature">
+                                        </td>
+                                        <td>{{$admin->name}}</td>
+                                        <td>{{$admin->email}}</td>
+                                        <td>{{$admin->gender}}</td>
+                                        <td>{{$admin->phone}}</td>
+                                        <td>{{$admin->address}}</td>
+                                        <td>
                                             @if (Auth::user()->id == $admin->id)
 
                                             @else
-                                                <a href="{{route('admin#changeRole',$admin->id)}}">
-                                                    <button class="item me-1" data-toggle="tooltip" data-placement="top" title="Change Admin Role">
-                                                        <i class="fa-solid fa-person-circle-minus"></i>
-                                                    </button>
-                                                </a>
-                                                <a href="{{route('admin#delete',$admin->id)}}">
-                                                    <button class="item me-1" data-toggle="tooltip" data-placement="top" title="Delete">
-                                                        <i class="zmdi zmdi-delete"></i>
-                                                    </button>
-                                                </a>
+                                                <div class="table-data-feature">
+                                                    <select class="form-control status-change">
+                                                        <option value="user" @if ($admin->role == 'user') selected @endif>User</option>
+                                                        <option value="admin" @if ($admin->role == 'admin') selected @endif>Admin</option>
+                                                    </select>
+                                                </div>
                                             @endif
-                                        </div>
-                                    </td>
-                                </tr>
+
+                                                {{-- @if (Auth::user()->id == $admin->id)
+
+                                                @else
+                                                    <a href="{{route('admin#changeRole',$admin->id)}}">
+                                                        <button class="item me-1" data-toggle="tooltip" data-placement="top" title="Change Admin Role">
+                                                            <i class="fa-solid fa-person-circle-minus"></i>
+                                                        </button>
+                                                    </a>
+                                                    <a href="{{route('admin#delete',$admin->id)}}">
+                                                        <button class="item me-1" data-toggle="tooltip" data-placement="top" title="Delete">
+                                                            <i class="zmdi zmdi-delete"></i>
+                                                        </button>
+                                                    </a>
+                                                @endif --}}
+                                        </td>
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>
@@ -148,4 +158,30 @@
         </div>
     </div>
     <!-- END MAIN CONTENT-->
+@endsection
+
+@section('scriptSection')
+    <script>
+        $(document).ready(function(){
+            // change status
+            $(".status-change").change(function(){
+                $currentStatus = $(this).val();
+                $parentNode = $(this).parents('tr');
+                $adminId = $parentNode.find('#adminId').val();
+
+                $data = {
+                    'adminId' : $adminId,
+                    'role' : $currentStatus
+            };
+
+                $.ajax({
+                    type: 'get',
+                    url: '/admin/change/role',
+                    data: $data,
+                    dataType: 'json',
+                })
+                location.reload();
+            })
+        })
+    </script>
 @endsection

@@ -5,11 +5,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\User\AjaxController;
 use App\Http\Controllers\User\UserController;
-use App\Http\Controllers\UserController as Enter;
+use App\Http\Controllers\UserController as User;
 
     // login , register
 Route::middleware(['admin_auth'])->group(function () {
@@ -50,8 +51,8 @@ Route::middleware(['auth'])->group(function () {    // auth nat bll kar mL
             // admin list
             Route::get('list',[AdminController::class,'list'])->name('admin#list');
             Route::get('delete/{id}',[AdminController::class,'delete'])->name('admin#delete');
-            Route::get('changeRole/{id}',[AdminController::class,'changeRole'])->name('admin#changeRole');
-            Route::post('change/role/{id}',[AdminController::class,'change'])->name('admin#change');
+            Route::get('changeRole',[AdminController::class,'changeRole'])->name('admin#changeRole');
+            Route::get('change/role',[AdminController::class,'change'])->name('admin#change');
         });
 
         // products
@@ -75,8 +76,16 @@ Route::middleware(['auth'])->group(function () {    // auth nat bll kar mL
 
         // user
         Route::prefix('user')->group(function(){
-            Route::get('list',[Enter::class,'userList'])->name('admin#userList');
-            Route::get('change/role',[Enter::class,'userChangeRole'])->name('admin#userChangeRole');
+            Route::get('list',[User::class,'userList'])->name('admin#userList');
+            Route::get('change/role',[User::class,'userChangeRole'])->name('admin#userChangeRole');
+            Route::get('edit/{id}',[User::class,'userEdit'])->name('admin#userEdit');
+            Route::post('update/{id}',[User::class,'userUpdate'])->name('admin#userUpdate');
+            Route::get('delete/{id}',[User::class,'userDelete'])->name('admin#userDelete');
+        });
+
+        // contact
+        Route::prefix('contact')->group(function(){
+            Route::get('page',[ContactController::class,'adminContactPage'])->name('admin#contactPage');
         });
     });
 
@@ -110,6 +119,12 @@ Route::middleware(['auth'])->group(function () {    // auth nat bll kar mL
         Route::prefix('account')->group(function(){
             Route::get('change',[UserController::class,'accountChangePage'])->name('user#accountChangePage');
             Route::post('change/{id}',[UserController::class,'accountChange'])->name('user#accountChange');
+        });
+
+        // user contact
+        Route::prefix('contact')->group(function(){
+            Route::get('page/{id}',[UserController::class,'userContactPage'])->name('user#contactPage');
+            Route::post('form/{id}',[UserController::class,'userContactForm'])->name('user#contactForm');
         });
 
         // ajax sorting

@@ -103,24 +103,32 @@ class AdminController extends Controller
     }
 
     // change role
-    public function changeRole($id){
-        $account = User::where('id',$id)->first();
-        return view('admin.account.changeRole',compact('account'));
+    public function changeRole(){
+        $account = User::where('role','admin')->paginate(3);
+        return view('admin.account.list',compact('account'));
+
+        // $account = User::where('id',$id)->first();
+        // return view('admin.account.changeRole',compact('account'));
     }
 
     // change
-    public function change($id,Request $request){
-        $data = $this->requestUserData($request);
-        User::where('id',$id)->update($data);
-        return redirect()->route('admin#list');
+    public function change(Request $request){
+        $updateSource = [
+            'role' => $request->role
+        ];
+        User::where('id',$request->adminId)->update($updateSource);
+
+        // $data = $this->requestUserData($request);
+        // User::where('id',$id)->update($data);
+        // return redirect()->route('admin#list');
     }
 
     // request user role data
-    private function requestUserData($request){
-        return [
-            'role' => $request->role
-        ];
-    }
+    // private function requestUserData($request){
+    //     return [
+    //         'role' => $request->role
+    //     ];
+    // }
 
     // request user data
     private function getUserData($request){
