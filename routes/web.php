@@ -138,3 +138,10 @@ Route::middleware(['auth'])->group(function () {    // auth nat bll kar mL
         });
     });
 });
+
+Route::get('webTesting',function(){
+    $data = [
+        'message' => "this is testing message"
+    ];
+    return response()->json($data, 200);
+});
