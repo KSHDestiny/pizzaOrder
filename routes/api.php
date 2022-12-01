@@ -13,6 +13,16 @@ Route::get('list',[RouteController::class,'list']);
 Route::get('category/list',[RouteController::class,'categoryList']);
 
 
-// post
+// create
 Route::post('create/category',[RouteController::class,'categoryCreate']);
 Route::post('create/contact',[RouteController::class,'createContact']);
+
+// delete
+Route::post('delete/category',[RouteController::class,'categoryDelete']);
+Route::get('delete/contact/{id}',[RouteController::class,'deleteContact']);
+
+// view category details
+Route::get('category/details/{id}',[RouteController::class,'categoryDetails']);
+
+// category update
+Route::post('category/update',[RouteController::class,'categoryUpdate']);
